@@ -15,6 +15,9 @@ namespace EShop.EFModels
         public double Price { get; set; }
         public string WarehouseLocation { get; set; }
 
+        public int ShopId { get; set; }
+        public Shop Shop { get; set; }
+
 
 
     }
