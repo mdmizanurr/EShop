@@ -4,14 +4,16 @@ using EShop.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EShop.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200224091532_Shop_Product_V1")]
+    partial class Shop_Product_V1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,21 +48,21 @@ namespace EShop.Migrations
                         .HasColumnType("nvarchar(11)")
                         .HasMaxLength(11);
 
-                    b.Property<int?>("DokanId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int?>("ShopId")
+                        .HasColumnType("int");
+
                     b.Property<string>("WarehouseLocation")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DokanId");
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Products");
                 });
@@ -82,9 +84,9 @@ namespace EShop.Migrations
 
             modelBuilder.Entity("EShop.EFModels.Product", b =>
                 {
-                    b.HasOne("EShop.EFModels.Shop", "Dokan")
+                    b.HasOne("EShop.EFModels.Shop", null)
                         .WithMany("Products")
-                        .HasForeignKey("DokanId");
+                        .HasForeignKey("ShopId");
                 });
 #pragma warning restore 612, 618
         }

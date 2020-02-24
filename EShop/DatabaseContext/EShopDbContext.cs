@@ -25,6 +25,8 @@ namespace EShop.DatabaseContext
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Shop> Shops { get; set; }
+
 
 
 

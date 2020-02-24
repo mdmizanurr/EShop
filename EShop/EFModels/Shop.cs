@@ -4,7 +4,16 @@ using System.Text;
 
 namespace EShop.EFModels
 {
-    class Shop
+    public class Shop
     {
+
+        public Shop()
+        {
+            Products = new List<Product>();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<Product> Products { get; set; }
+
     }
 }
