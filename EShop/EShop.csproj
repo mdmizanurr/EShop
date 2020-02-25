@@ -12,6 +12,10 @@
     <Compile Remove="Migrations\20200224093326_Shop_Product_V2.Designer.cs" />
     <Compile Remove="Migrations\20200224093755_Shop_Product_V2.cs" />
     <Compile Remove="Migrations\20200224093755_Shop_Product_V2.Designer.cs" />
+    <Compile Remove="Migrations\20200225023944_Dokan_Shop.cs" />
+    <Compile Remove="Migrations\20200225023944_Dokan_Shop.Designer.cs" />
+    <Compile Remove="Migrations\20200225074035_Shop_Updated_v1.cs" />
+    <Compile Remove="Migrations\20200225074035_Shop_Updated_v1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

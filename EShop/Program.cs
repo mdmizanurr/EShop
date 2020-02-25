@@ -1,5 +1,7 @@
 ﻿using EShop.DatabaseContext;
 using EShop.EFModels;
+using EShop.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace EShop
@@ -8,59 +10,28 @@ namespace EShop
     {
      static void Main(string[] args)
         {
+            ProductRepository _repo = new ProductRepository();
 
-            EShopDbContext db = new EShopDbContext();
+            var existingProduct = new Product() 
+            { 
+                Id = 14,
+                Name = "Wheel Chair",
+                Code = "WC001",
+                Price = 20000
 
-            //Product Create
-
-            var p1 = new Product()
-            {
-                Name = "Table",
-                Code = "T001",
-                Price = 10000,
-                WarehouseLocation = "Dhaka"
             };
 
-            var p2 = new Product()
+            bool isUpdated = _repo.Update(existingProduct);
+
+            if (isUpdated)
             {
-                Name = "Chair",
-                Code = "C001",
-                Price = 5000,
-                WarehouseLocation = "Dhaka"
-            };
-
-
-            //Shop Add
-
-            var shop = new Shop()
-            {
-                Name = "Kawran Bazar Shop"
-            };
-
-            shop.Products.Add(p1);
-            shop.Products.Add(p2);
-
-            db.Shops.Add(shop);
-
-            int successCount = db.SaveChanges();
-
-            if (successCount > 0)
-            {
-                Console.WriteLine("Shop Added");
-            }
-            else
-            {
-                Console.WriteLine("Failed");
+                Console.WriteLine("Product Updated");
             }
 
 
-
-
-
-
-            foreach (var product in db.Products)
+            foreach (var product in _repo.GetAll())
             {
-                Console.WriteLine($"Name: {product.Name} Price: {product.Price} WH Location: {product.WarehouseLocation}");
+                Console.WriteLine($"Name: {product.Name} Price: {product.Price} WH Location: {product.WarehouseLocation} Shop Name: {product.DokanId}");
             }
 
 
