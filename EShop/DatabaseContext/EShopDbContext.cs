@@ -12,12 +12,15 @@ namespace EShop.DatabaseContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(connectionString);
+            //optionsBuilder.UseLazyLoadingProxies();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().HasKey(c => c.Code);
             modelBuilder.Entity<Customer>().ToTable("Clients");
+
+            modelBuilder.Entity<Product>().HasQueryFilter(c => c.IsDeleted == false);
             
             
             base.OnModelCreating(modelBuilder); 

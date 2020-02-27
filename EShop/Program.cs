@@ -3,6 +3,7 @@ using EShop.EFModels;
 using EShop.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace EShop
 {
@@ -10,55 +11,48 @@ namespace EShop
     {
      static void Main(string[] args)
         {
-            ProductRepository _repo = new ProductRepository();
+            UnitofWork _unitofWork = new UnitofWork();
 
-            var existingProduct = new Product() 
-            { 
-                Id = 14,
-                Name = "Wheel Chair",
-                Code = "WC001",
-                Price = 20000
 
-            };
-
-            bool isUpdated = _repo.Update(existingProduct);
-
-            if (isUpdated)
+            foreach (var shop in _unitofWork.ShopRepository.GetAll())
             {
-                Console.WriteLine("Product Updated");
+                _unitofWork.ShopRepository.LoadProducts(shop);
+
+                Console.WriteLine("Shop Info..................");
+                Console.WriteLine($" Shop Name: {shop.Name} ");
+                                                     
+
+                if( shop.Products.Any())
+                {
+                    Console.WriteLine("\t\t Product Info");
+                    foreach (var shopProduct in shop.Products)
+                    {
+                        Console.WriteLine("\t\t "+GetProductInfo(shopProduct));
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("No Products found");
+                }
             }
 
+            Console.WriteLine();
 
-            foreach (var product in _repo.GetAll())
+            foreach (var product in _unitofWork.ProductRepository.GetAll())
             {
-                Console.WriteLine($"Name: {product.Name} Price: {product.Price} WH Location: {product.WarehouseLocation} Shop Name: {product.DokanId}");
+                Console.WriteLine(GetProductInfo(product));
+
             }
-
-
-            //Product prod = new Product()
-            //{
-            //    Name = "Dell Desktop",
-            //    Code = " Dsk/001",
-            //    Price = 35000
-            //};
-
-            //EShopDbContext db = new EShopDbContext();
-            //db.Products.Add(prod);
-
-            //int count = db.SaveChanges();
-
-            //if (count > 0)
-            //{
-            //    Console.WriteLine("Success");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Failde");
-            //}
-
-            Console.ReadKey();
-                                 
 
         }
+        
+        static string GetProductInfo(Product product)
+
+        {
+            return $"Name: {product.Name} Price: {product.Price} WH Location: {product.WarehouseLocation} Shop Id: {product.Dokan?.Id.ToString() ?? "N/A"} Shop name: {product.Dokan?.Name ?? "N/A "}";
+        }
+
+
     }
 }

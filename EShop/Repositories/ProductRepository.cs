@@ -10,40 +10,39 @@ using System.Text;
 namespace EShop.Repositories
 {
      public class ProductRepository
-    {
+    {   
         private readonly EShopDbContext _db;
 
-        public ProductRepository()
+        public ProductRepository(EShopDbContext db)
         {
-            _db = new EShopDbContext();
+            _db = db;
         }
 
 
-        public bool Add(Product product)
+        public void Add(Product product)
         {
             _db.Products.Add(product);
-            return _db.SaveChanges() > 0;
+           // return _db.SaveChanges() > 0;
         }
 
-        public bool Update(Product product)
+        public void Update(Product product)
         {
             _db.Entry(product).State = EntityState.Modified;
-            return _db.SaveChanges() > 0 ;
+          //  return _db.SaveChanges() > 0 ;
         }
 
-        public bool Remove(Product product)
+        public void Remove(Product product)
         {
             if (product is IDeleteable)
             {
                 IDeleteable item = (IDeleteable)product;
                 item.IsDeleted = true;
-                return Update(product);
+                Update(product);
             }
             else
             {
                 _db.Products.Remove(product);
-                return _db.SaveChanges() > 0;
-    
+                   
             }
 
 
