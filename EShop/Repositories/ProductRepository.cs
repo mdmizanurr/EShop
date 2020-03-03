@@ -1,5 +1,6 @@
 ﻿using EShop.Contracts;
 using EShop.DatabaseContext;
+using EShop.DTO;
 using EShop.EFModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -51,6 +52,34 @@ namespace EShop.Repositories
         public Product GetById(int id)
         {
             return _db.Products.Find(id);
+        }
+
+        public ICollection<Product> Search(ProductSearchCriteriaDTO criteria)
+        {
+            var products = _db.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(criteria.Name))
+            {
+                products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower())); 
+            }
+
+            if (!string.IsNullOrEmpty(criteria.Code))
+            {
+                products = products.Where(c => c.Code.ToLower().Contains(criteria.Code));
+            }
+
+            if(criteria.FromSalesPrice > 0)
+            {
+                products = products.Where(c => c.Price >= criteria.FromSalesPrice);
+            }
+
+            if (criteria.ToSalesPrice > 0)
+            {
+                products = products.Where(c => c.Price <= criteria.ToSalesPrice);
+            }
+
+            return products.ToList();
+
         }
 
         public ICollection<Product> GetAll()

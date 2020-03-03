@@ -1,4 +1,5 @@
 ﻿using EShop.DatabaseContext;
+using EShop.DTO;
 using EShop.EFModels;
 using EShop.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,33 +14,15 @@ namespace EShop
         {
             UnitofWork _unitofWork = new UnitofWork();
 
-
-            foreach (var shop in _unitofWork.ShopRepository.GetAll())
+            var searchCriteria = new ProductSearchCriteriaDTO()
             {
-                _unitofWork.ShopRepository.LoadProducts(shop);
+                Name = "Laptop",
+                FromSalesPrice = 1000
+            };
 
-                Console.WriteLine("Shop Info..................");
-                Console.WriteLine($" Shop Name: {shop.Name} ");
-                                                     
+            var products = _unitofWork.ProductRepository.Search(searchCriteria);
 
-                if( shop.Products.Any())
-                {
-                    Console.WriteLine("\t\t Product Info");
-                    foreach (var shopProduct in shop.Products)
-                    {
-                        Console.WriteLine("\t\t "+GetProductInfo(shopProduct));
-                    }
-
-                }
-                else
-                {
-                    Console.WriteLine("No Products found");
-                }
-            }
-
-            Console.WriteLine();
-
-            foreach (var product in _unitofWork.ProductRepository.GetAll())
+            foreach (var product in products)
             {
                 Console.WriteLine(GetProductInfo(product));
 

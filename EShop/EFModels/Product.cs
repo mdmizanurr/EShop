@@ -10,7 +10,6 @@ namespace EShop.EFModels
     {
         public Product()
         {
-
         }
 
         public int Id { get; set; }
